@@ -22,7 +22,7 @@ var getCityLocation = function(city) {
     });
 };
 
-//Function that uses the lat/lon of searched city to find weater
+//Function that uses the lat/lon of searched city to find weather
 var getCityWeather = function(lat, lon) {
     var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=imperial&appid=e8cd9e5914172346c0997d3f67062c7d`;
 
@@ -32,7 +32,7 @@ var getCityWeather = function(lat, lon) {
                 console.log(data);
 
                 //Creates a header for the searched city and the date of the current weater
-                var cityName = document.createElement("h4");
+                var cityName = document.createElement("h3");
                 cityName.textContent = `${searchedCity}: ${moment().format("MM")}/${moment().format("DD")}/${moment().format("YYYY")}`;
 
                 //Creates a span for the current temperature
@@ -48,6 +48,7 @@ var getCityWeather = function(lat, lon) {
                 cityHumid.textContent = `Humidity: ${data.current.humidity}%`;
 
                 //Creates a span for the current UV Index
+                //TODO add conditional span to color code UV index
                 var cityUv = document.createElement("span");
                 cityUv.textContent = `UV Index: ${data.current.uvi}`;
 
@@ -57,6 +58,27 @@ var getCityWeather = function(lat, lon) {
                 currentDayWeather.append(cityWind);
                 currentDayWeather.append(cityHumid);
                 currentDayWeather.append(cityUv);
+
+                //For loop to go through the forecasted data and create the necessary elements
+                //TODO add if statements for icons
+                for (i = 0; i < 5; i++) {
+                    //Declares headers and spans that will be added
+                    var futureDate = document.createElement("h4");
+                    var futureTemp = document.createElement("span");
+                    var futureWind = document.createElement("span");
+                    var futureHumid = document.createElement("span");
+
+                    //Sets new elements to data for the future dates
+                    futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
+                    futureTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
+                    futureWind.textContent = `Wind: ${data.daily[i].wind_speed}`;
+                    futureHumid.textContent = `Humidity: ${data.daily[i].humidity}%`;
+
+                    document.querySelector(`#day-${i}`).append(futureDate);
+                    document.querySelector(`#day-${i}`).append(futureTemp);
+                    document.querySelector(`#day-${i}`).append(futureWind);
+                    document.querySelector(`#day-${i}`).append(futureHumid);                
+                };
             });
         } else {
             alert("Error: City not found");
