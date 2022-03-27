@@ -5,6 +5,15 @@ var searchedCity;
 var cityNameEl = document.querySelector("#city-name");
 var citySearchEl = document.querySelector("#city-search");
 
+//Section of dynamic HTML elements to add to page 
+var cityName = document.createElement("h3");
+var cityTemp = document.createElement("span");
+var cityWind = document.createElement("span");
+var cityHumid = document.createElement("span");
+var cityUv = document.createElement("span");
+
+
+
 //Function to get the latitude and longitude of a city, which will be passed to another API call later
 var getCityLocation = function(city) {
     var apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=cfa2d43ea9ac025bf9f3be2a8cd399ce`;
@@ -34,28 +43,23 @@ var getCityWeather = function(lat, lon) {
                 console.log(data);
 
                 //Creates a header for the searched city and the date of the current weater
-                var cityName = document.createElement("h3");
                 cityName.textContent = "";
                 cityName.textContent = `${searchedCity}: ${moment().format("MM")}/${moment().format("DD")}/${moment().format("YYYY")}`;
 
                 //Creates a span for the current temperature
-                var cityTemp = document.createElement("span");
                 cityTemp.textContent = "";
                 cityTemp.textContent = `Temp: ${data.current.temp} °F`;
 
-                //Creates a span for the current wind force
-                var cityWind = document.createElement("span");
+                //Creates a span for the current wind force  
                 cityWind.textContent = "";
                 cityWind.textContent = `Wind: ${data.current.wind_speed} MPH`;
 
-                //Creates a span for the current humidity
-                var cityHumid = document.createElement("span");
+                //Creates a span for the current humidity           
                 cityHumid.textContent = "";
                 cityHumid.textContent = `Humidity: ${data.current.humidity}%`;
 
                 //Creates a span for the current UV Index
-                //TODO add conditional span to color code UV index
-                var cityUv = document.createElement("span");
+                //TODO add conditional span to color code UV index      
                 cityUv.textContent = "";
                 cityUv.textContent = `UV Index: ${data.current.uvi}`;
 
@@ -66,25 +70,17 @@ var getCityWeather = function(lat, lon) {
                 currentDayWeather.append(cityHumid);
                 currentDayWeather.append(cityUv);
 
+                $(".forecast-header").text("5-Day Forecast:");
                 //For loop to go through the forecasted data and create the necessary elements
                 //TODO add if statements for icons
                 for (i = 0; i < 5; i++) {
-                    //Declares headers and spans that will be added
+                    $(`#day-${i}`).empty();
+
                     var futureDate = document.createElement("h4");
-                    $(futureDate).addClass("py-2");
                     var futureTemp = document.createElement("span");
-                    $(futureTemp).addClass("py-2");
                     var futureWind = document.createElement("span");
-                    $(futureWind).addClass("py-2");
                     var futureHumid = document.createElement("span");
-                    $(futureHumid).addClass("py-2")
-
-                    //Clears elements before setting new data in case of multiple calls
-                    futureDate.textContent = "";
-                    futureTemp.textContent = "";
-                    futureWind.textContent = "";
-                    futureHumid.textContent = "";
-
+               
                     //Sets new elements to data for the future dates
                     futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
                     futureTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
@@ -95,7 +91,8 @@ var getCityWeather = function(lat, lon) {
                     document.querySelector(`#day-${i}`).append(futureDate);
                     document.querySelector(`#day-${i}`).append(futureTemp);
                     document.querySelector(`#day-${i}`).append(futureWind);
-                    document.querySelector(`#day-${i}`).append(futureHumid);                
+                    document.querySelector(`#day-${i}`).append(futureHumid);  
+                    
                 };
 
                 //$(".forecast").addClass("card");
