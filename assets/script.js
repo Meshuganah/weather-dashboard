@@ -35,23 +35,28 @@ var getCityWeather = function(lat, lon) {
 
                 //Creates a header for the searched city and the date of the current weater
                 var cityName = document.createElement("h3");
+                cityName.textContent = "";
                 cityName.textContent = `${searchedCity}: ${moment().format("MM")}/${moment().format("DD")}/${moment().format("YYYY")}`;
 
                 //Creates a span for the current temperature
                 var cityTemp = document.createElement("span");
+                cityTemp.textContent = "";
                 cityTemp.textContent = `Temp: ${data.current.temp} °F`;
 
                 //Creates a span for the current wind force
                 var cityWind = document.createElement("span");
+                cityWind.textContent = "";
                 cityWind.textContent = `Wind: ${data.current.wind_speed} MPH`;
 
                 //Creates a span for the current humidity
                 var cityHumid = document.createElement("span");
+                cityHumid.textContent = "";
                 cityHumid.textContent = `Humidity: ${data.current.humidity}%`;
 
                 //Creates a span for the current UV Index
                 //TODO add conditional span to color code UV index
                 var cityUv = document.createElement("span");
+                cityUv.textContent = "";
                 cityUv.textContent = `UV Index: ${data.current.uvi}`;
 
                 //Appends all of the data gathered into the current weather container
@@ -73,6 +78,12 @@ var getCityWeather = function(lat, lon) {
                     $(futureWind).addClass("py-2");
                     var futureHumid = document.createElement("span");
                     $(futureHumid).addClass("py-2")
+
+                    //Clears elements before setting new data in case of multiple calls
+                    futureDate.textContent = "";
+                    futureTemp.textContent = "";
+                    futureWind.textContent = "";
+                    futureHumid.textContent = "";
 
                     //Sets new elements to data for the future dates
                     futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
