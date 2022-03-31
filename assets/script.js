@@ -13,6 +13,7 @@ var cityTemp = document.createElement("span");
 var cityWind = document.createElement("span");
 var cityHumid = document.createElement("span");
 var cityUv = document.createElement("span");
+var colorUv = document.createElement("span");
 
 
 
@@ -65,7 +66,22 @@ var getCityWeather = function(lat, lon) {
                 //Creates a span for the current UV Index
                 //TODO add conditional span to color code UV index      
                 cityUv.textContent = "";
-                cityUv.textContent = `UV Index: ${data.current.uvi}`;
+                colorUv.textContent = "";
+                colorUv.textContent = `${data.current.uvi}`;
+
+                if (data.current.uvi <= 3) {
+                    $(colorUv).removeClass("bg-success bg-warning bg-danger");
+                    colorUv.classList = "bg-success rounded";
+                } else if (data.current.uvi > 3 && data.current.uvi <= 6) {
+                    $(colorUv).removeClass("bg-success bg-warning bg-danger");
+                    colorUv.classList = "bg-warning rounded";
+                } else if (data.current.uvi > 6) {
+                    $(colorUv).removeClass("bg-success bg-warning bg-danger");
+                    colorUv.classList = "bg-danger rounded";
+                };
+
+                cityUv.textContent = `UV Index: `;
+                cityUv.appendChild(colorUv);
 
                 //Appends all of the data gathered into the current weather container
                 currentDayWeather.append(cityName);
@@ -81,18 +97,21 @@ var getCityWeather = function(lat, lon) {
                     $(`#day-${i}`).empty();
 
                     var futureDate = document.createElement("h4");
+                    var futureIcon = document.createElement("img");
                     var futureTemp = document.createElement("span");
                     var futureWind = document.createElement("span");
                     var futureHumid = document.createElement("span");
                
                     //Sets new elements to data for the future dates
                     futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
+                    futureIcon.setAttribute("src", `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`)
                     futureTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
                     futureWind.textContent = `Wind: ${data.daily[i].wind_speed}`;
                     futureHumid.textContent = `Humidity: ${data.daily[i].humidity}%`;
 
                     //Appends new items for future dates
                     document.querySelector(`#day-${i}`).append(futureDate);
+                    document.querySelector(`#day-${i}`).append(futureIcon);
                     document.querySelector(`#day-${i}`).append(futureTemp);
                     document.querySelector(`#day-${i}`).append(futureWind);
                     document.querySelector(`#day-${i}`).append(futureHumid);  
