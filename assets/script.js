@@ -15,6 +15,9 @@ var cityHumid = document.createElement("span");
 var cityUv = document.createElement("span");
 var colorUv = document.createElement("span");
 
+//Dyanmic CSS classes to add 
+var styleText = "fs-4 fw-bold my-1";
+
 
 
 //Function to get the latitude and longitude of a city, which will be passed to another API call later
@@ -53,19 +56,22 @@ var getCityWeather = function(lat, lon) {
 
                 //Creates a span for the current temperature
                 cityTemp.textContent = "";
+                cityTemp.classList = styleText;
                 cityTemp.textContent = `Temp: ${data.current.temp} °F`;
 
                 //Creates a span for the current wind force  
                 cityWind.textContent = "";
+                cityWind.classList = styleText;
                 cityWind.textContent = `Wind: ${data.current.wind_speed} MPH`;
 
                 //Creates a span for the current humidity           
                 cityHumid.textContent = "";
+                cityHumid.classList = styleText;
                 cityHumid.textContent = `Humidity: ${data.current.humidity}%`;
 
-                //Creates a span for the current UV Index
-                //TODO add conditional span to color code UV index      
+                //Creates a span for the current UV Index      
                 cityUv.textContent = "";
+                cityUv.classList = styleText;
                 colorUv.textContent = "";
                 colorUv.textContent = `${data.current.uvi}`;
 
@@ -83,6 +89,10 @@ var getCityWeather = function(lat, lon) {
                 cityUv.textContent = `UV Index: `;
                 cityUv.appendChild(colorUv);
 
+                $(".current-day-weather").addClass("border")
+                    .addClass("border-dark")
+                    .addClass("p-1");
+
                 //Appends all of the data gathered into the current weather container
                 currentDayWeather.append(cityName);
                 currentDayWeather.append(cityTemp);
@@ -92,15 +102,22 @@ var getCityWeather = function(lat, lon) {
 
                 $(".forecast-header").text("5-Day Forecast:");
                 //For loop to go through the forecasted data and create the necessary elements
-                //TODO add if statements for icons
                 for (i = 0; i < 5; i++) {
                     $(`#day-${i}`).empty();
 
                     var futureDate = document.createElement("h4");
+                    futureDate.classList = 'text-light';
+
                     var futureIcon = document.createElement("img");
+
                     var futureTemp = document.createElement("span");
+                    futureTemp.classList = `${styleText} text-light`;
+
                     var futureWind = document.createElement("span");
+                    futureWind.classList = `${styleText} text-light`;
+
                     var futureHumid = document.createElement("span");
+                    futureHumid.classList = `${styleText} text-light`;
                
                     //Sets new elements to data for the future dates
                     futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
@@ -154,7 +171,7 @@ var saveSearch = function() {
         var recentSearchBtn = document.createElement("button");
 
         recentSearchBtn.textContent = `${searchedCity}`;
-        recentSearchBtn.classList = "w-100 recentSearchBtn";
+        recentSearchBtn.classList = "rounded my-2 p-2 w-100 recentSearchBtn";
         recentSearchBtn.setAttribute("data-city", `${searchedCity}`);
 
         recentSearchEl.appendChild(recentSearchBtn);

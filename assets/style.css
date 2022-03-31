@@ -1,4 +1,19 @@
+
 img {
     max-width: 50px;
     max-height: 50px;
+}
+
+.header {
+    background: rgb(123,194,255);
+    background: linear-gradient(90deg, rgba(123,194,255,1) 0%, rgba(0,0,250,1) 50%, rgba(185,0,169,1) 100%);
+}
+
+.searchBtn {
+    background-color: rgba(45, 132, 245, .50);
+    color: white;
+}
+
+.recentSearchBtn {
+    background-color: rgba(119, 136, 153, .50);
 }
