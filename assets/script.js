@@ -4,6 +4,7 @@ var currentDayWeather = $(".current-day-weather");
 var searchedCity;
 var cityNameEl = document.querySelector("#city-name");
 var citySearchEl = document.querySelector("#city-search");
+var recentSearchEl = document.querySelector(".recent-searches");
 
 //Section of dynamic HTML elements to add to page 
 var cityName = document.createElement("h3");
@@ -26,6 +27,7 @@ var getCityLocation = function(city) {
                 searchedCity = "";
                 searchedCity = city;
                 getCityWeather(cityLat, cityLon);
+                saveSearch();
             });
         } else {
             alert("Error: City not found")
@@ -105,6 +107,26 @@ var getCityWeather = function(lat, lon) {
     });
 };
 
+//Creates a list of buttons that represent recent searches
+var saveSearch = function() {
+    if (!document.querySelector(".recentSearchBtn").getAttribute("data-city") === `${searchedCity}`) {
+        var recentSearchBtn = document.createElement("button");
+
+        recentSearchBtn.textContent = `${searchedCity}`;
+        recentSearchBtn.classList = "w-100 recentSearchBtn";
+        recentSearchBtn.setAttribute("data-city", `${searchedCity}`);
+
+        recentSearchEl.appendChild(recentSearchBtn);
+    };
+};
+
+//Handles the recent searches button logic
+var recentSearchHandler = function(event) {
+    var searchAgain = event.target.getAttribute("data-city");
+    
+    getCityLocation(searchAgain);
+};
+
 //Handles the submission form data to pass it along to the getCityLocation function
 var citySearchHandler = function(event) {
     event.preventDefault();
@@ -120,5 +142,6 @@ var citySearchHandler = function(event) {
 };
 
 citySearchEl.addEventListener("submit", citySearchHandler);
+recentSearchEl.addEventListener("click", recentSearchHandler);
 //getCityLocation("Cleveland");
 
