@@ -9,6 +9,7 @@ var recentSearchBtnEl = document.querySelector(".recentSearchBtn");
 
 //Section of dynamic HTML elements to add to page 
 var cityName = document.createElement("h3");
+var cityIcon = document.createElement("img");
 var cityTemp = document.createElement("span");
 var cityWind = document.createElement("span");
 var cityHumid = document.createElement("span");
@@ -54,6 +55,9 @@ var getCityWeather = function(lat, lon) {
                 cityName.textContent = "";
                 cityName.textContent = `${searchedCity}: ${moment().format("MM")}/${moment().format("DD")}/${moment().format("YYYY")}`;
 
+                //Creates the img of current weather forcast
+                cityIcon.setAttribute("src", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`)
+
                 //Creates a span for the current temperature
                 cityTemp.textContent = "";
                 cityTemp.classList = styleText;
@@ -95,6 +99,7 @@ var getCityWeather = function(lat, lon) {
 
                 //Appends all of the data gathered into the current weather container
                 currentDayWeather.append(cityName);
+                cityName.append(cityIcon);
                 currentDayWeather.append(cityTemp);
                 currentDayWeather.append(cityWind);
                 currentDayWeather.append(cityHumid);
@@ -105,6 +110,8 @@ var getCityWeather = function(lat, lon) {
                 for (i = 0; i < 5; i++) {
                     $(`#day-${i}`).empty();
 
+                    //Dynamic HTML elements to add to page, when outside of for loop
+                    //bug occurs, where previous text is not cleared, and new information will be stacked on top
                     var futureDate = document.createElement("h4");
                     futureDate.classList = 'text-light';
 
