@@ -23,7 +23,7 @@ var styleText = "fs-4 fw-bold my-1";
 
 //Function to get the latitude and longitude of a city, which will be passed to another API call later
 var getCityLocation = function(city) {
-    var apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=cfa2d43ea9ac025bf9f3be2a8cd399ce`;
+    var apiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=cfa2d43ea9ac025bf9f3be2a8cd399ce`;
 
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
@@ -56,7 +56,7 @@ var getCityWeather = function(lat, lon) {
                 cityName.textContent = `${searchedCity}: ${moment().format("MM")}/${moment().format("DD")}/${moment().format("YYYY")}`;
 
                 //Creates the img of current weather forcast
-                cityIcon.setAttribute("src", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`)
+                cityIcon.setAttribute("src", `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`)
 
                 //Creates a span for the current temperature
                 cityTemp.textContent = "";
@@ -128,7 +128,7 @@ var getCityWeather = function(lat, lon) {
                
                     //Sets new elements to data for the future dates
                     futureDate.textContent = `${moment().format("MM")}/${moment().add(i+1, "days").format("DD")}/${moment().format("YYYY")}`;
-                    futureIcon.setAttribute("src", `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`)
+                    futureIcon.setAttribute("src", `https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`)
                     futureTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
                     futureWind.textContent = `Wind: ${data.daily[i].wind_speed}`;
                     futureHumid.textContent = `Humidity: ${data.daily[i].humidity}%`;
@@ -155,7 +155,7 @@ var getCityWeather = function(lat, lon) {
 //Secondary API call to use with recent search buttons, that does NOT re-save the search
 //REMOVE THIS if better method is found
 var recentSearchWeather = function(city) {
-    var apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=cfa2d43ea9ac025bf9f3be2a8cd399ce`;
+    var apiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=cfa2d43ea9ac025bf9f3be2a8cd399ce`;
 
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
